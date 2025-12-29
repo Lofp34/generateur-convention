@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id             String         @id @default(cuid())
+  name           String
+  address        String
+  city           String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  representative Representative?
+  participants   Participant[]
+  conventions    Convention[]
+
+  @@unique([name, address])
+}
+
+model Representative {
+  id         String   @id @default(cuid())
+  companyId  String   @unique
+  firstName  String
+  lastName   String
+  role       String
+  email      String?
+  phone      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  company    Company  @relation(fields: [companyId], references: [id])
+}
+
+model Participant {
+  id         String   @id @default(cuid())
+  companyId  String
+  firstName  String
+  lastName   String
+  email      String?
+  phone      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  company    Company  @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, firstName, lastName])
+}
+
+model Convention {
+  id              String   @id @default(cuid())
+  companyId       String
+  trainingName    String
+  duration        String
+  dateStart       DateTime?
+  dateEnd         DateTime?
+  dateRange       String
+  location        String
+  instructor      String
+  amountHt        Decimal  @db.Decimal(10, 2)
+  amountTva       Decimal  @db.Decimal(10, 2)
+  amountTtc       Decimal  @db.Decimal(10, 2)
+  participantsRaw String?
+  createdAt       DateTime @default(now())
+  company         Company  @relation(fields: [companyId], references: [id])
+}
