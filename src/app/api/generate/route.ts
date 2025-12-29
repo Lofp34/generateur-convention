@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
       conventionDate,
     });
 
-    return new Response(pdfBytes, {
+    return new Response(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
