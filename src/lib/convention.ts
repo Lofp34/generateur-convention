@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, type PDFFont } from "pdf-lib";
 import { formatDateFr, formatDateIso, formatMoney, formatMoneySmart } from "./format";
 
 type ConventionPayload = {
@@ -161,7 +161,7 @@ const SIGNATURE = {
 
 function wrapText(
   text: string,
-  font: { widthOfTextAtSize: (value: string, size: number) => number },
+  font: PDFFont,
   fontSize: number,
   maxWidth: number,
   maxLines = 2
@@ -207,7 +207,7 @@ function yFromTop(pageHeight: number, top: number, height: number): number {
 
 function drawLine(
   pdfDoc: PDFDocument,
-  font: { widthOfTextAtSize: (value: string, size: number) => number },
+  font: PDFFont,
   line: LineSpec,
   text: string
 ) {
