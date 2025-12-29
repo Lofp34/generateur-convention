@@ -38,7 +38,7 @@ Ouvrir [http://localhost:3000](http://localhost:3000).
 1) Pousser le repo GitHub.
 2) Creer un projet Vercel sur ce repo (Root Directory par defaut).
 3) Ajouter la variable `DATABASE_URL` dans Vercel (Neon).
-4) La build lance automatiquement `prisma generate` + `prisma migrate deploy`.
+4) La build lance automatiquement `prisma generate` et execute `prisma migrate deploy` si `DATABASE_URL` est definie.
 
 ## Fichiers PDF
 
